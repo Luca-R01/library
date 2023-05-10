@@ -32,7 +32,7 @@ public class RentalServiceImpl implements RentalService {
         UserEntity userEntity = userService.findUserById(userId);
 
         // Find Book
-        BookEntity bookEntity = bookService.findBookById(rentalRequest.getBookEntity().getId());
+        BookEntity bookEntity = bookService.findBookById(rentalRequest.getBook().getId());
 
         // Add new Rental
 
@@ -48,7 +48,7 @@ public class RentalServiceImpl implements RentalService {
         } else {
             // Check if this book already exists in rental
             Optional<RentalModel> check = userEntity.getRentalsList().stream()
-                    .filter(rental -> rental.getBookEntity().getId().equals(rentalRequest.getBookEntity().getId()))
+                    .filter(rental -> rental.getBook().getId().equals(rentalRequest.getBook().getId()))
                     .findFirst();
 
             if (check.isPresent()) {

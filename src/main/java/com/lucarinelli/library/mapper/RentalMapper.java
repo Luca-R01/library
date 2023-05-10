@@ -24,7 +24,7 @@ public class RentalMapper {
 
         RentalModel rentalModel = RentalModel.builder()
                 .id(new ObjectId().toString())
-                .bookEntity(bookEntity)
+                .book(bookEntity)
                 .rentalDate(LocalDate.now())
                 .expirationDate(LocalDate.now().plusDays(30))
                 .build();

@@ -16,7 +16,7 @@ public class RentalModel {
     private String id;
 
     @DBRef
-    private BookEntity bookEntity;
+    private BookEntity book;
 
     private LocalDate rentalDate;
 

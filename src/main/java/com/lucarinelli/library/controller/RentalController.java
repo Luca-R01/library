@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/api/v1/book/rental")
+@RequestMapping("/api/v1//rental")
 public interface RentalController {
 
-    @PostMapping("/create")
+    @PostMapping
     ResponseEntity<RentalModel> createRental(
             @RequestBody @Valid RentalDtoRequest dtoRequest
     ) throws NotFoundException, ConflictException;
