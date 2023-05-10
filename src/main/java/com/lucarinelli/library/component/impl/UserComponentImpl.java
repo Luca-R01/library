@@ -4,10 +4,10 @@ import com.lucarinelli.library.component.UserComponent;
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.mapper.UserMapper;
-import com.lucarinelli.library.model.dto.user.UserDtoRequest;
-import com.lucarinelli.library.model.dto.user.UserDtoResponse;
-import com.lucarinelli.library.model.dto.user.UserDtoSearch;
-import com.lucarinelli.library.model.entity.User;
+import com.lucarinelli.library.model.user.UserDtoRequest;
+import com.lucarinelli.library.model.user.UserDtoResponse;
+import com.lucarinelli.library.model.user.UserDtoSearch;
+import com.lucarinelli.library.model.user.UserEntity;
 import com.lucarinelli.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +28,9 @@ public class UserComponentImpl implements UserComponent {
     public UserDtoResponse createUser(UserDtoRequest dtoRequest) throws ConflictException {
         log.info("createUser - IN: {}", dtoRequest.toString());
 
-        User userRequest = userMapper.toUser(dtoRequest);
-        User user = userService.createUser(userRequest);
-        UserDtoResponse response = userMapper.toDto(user);
+        UserEntity userEntityRequest = userMapper.toUser(dtoRequest);
+        UserEntity userEntity = userService.createUser(userEntityRequest);
+        UserDtoResponse response = userMapper.toIdDto(userEntity);
 
         log.info("createUser - OUT: {}", response);
         return response;
@@ -40,8 +40,8 @@ public class UserComponentImpl implements UserComponent {
     public UserDtoResponse findUserById(String id) throws NotFoundException {
         log.info("findUserById - OUT: id({})", id);
 
-        User user = userService.findUserById(id);
-        UserDtoResponse response = userMapper.toDto(user);
+        UserEntity userEntity = userService.findUserById(id);
+        UserDtoResponse response = userMapper.toDto(userEntity);
 
         log.info("findUserById - OUT: {}", response.toString());
         return response;
@@ -51,23 +51,21 @@ public class UserComponentImpl implements UserComponent {
     public List<UserDtoResponse> findUsersByFilters(UserDtoSearch request) {
         log.info("findByUsersByFilter - IN: {}", request.toString());
 
-        List<User> users = userService.findUsersByFilters(request);
-        List<UserDtoResponse> response = userMapper.toDtoList(users);
+        List<UserEntity> userEntities = userService.findUsersByFilters(request);
+        List<UserDtoResponse> response = userMapper.toDtoList(userEntities);
 
         log.info("findByUsersByFilter - OUT: {}", response);
         return response;
     }
 
     @Override
-    public UserDtoResponse updateUser(String id, UserDtoRequest dtoRequest) throws NotFoundException {
+    public void updateUser(String id, UserDtoRequest dtoRequest) throws NotFoundException {
         log.info("updateUser - IN: id({}), {}", id, dtoRequest.toString());
 
-        User userRequest = userMapper.toUser(dtoRequest);
-        User user = userService.updateUser(id, userRequest);
-        UserDtoResponse response = userMapper.toDto(user);
+        UserEntity userEntityRequest = userMapper.toUser(dtoRequest);
+        userService.updateUser(id, userEntityRequest);
 
-        log.info("updateUser - OUT: {}", response);
-        return response;
+        log.info("updateUser - OUT: End method");
     }
 
     @Override

@@ -1,6 +1,5 @@
-package com.lucarinelli.library.model.dto.book;
+package com.lucarinelli.library.model.book;
 
-import com.lucarinelli.library.model.BookCategory;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,8 +1,7 @@
-package com.lucarinelli.library.repository.manager;
+package com.lucarinelli.library.repository;
 
-import com.lucarinelli.library.model.RentalModel;
-import com.lucarinelli.library.model.dto.user.UserDtoSearch;
-import com.lucarinelli.library.model.entity.User;
+import com.lucarinelli.library.model.user.UserDtoSearch;
+import com.lucarinelli.library.model.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class UserRepositoryManager {
     @Autowired
     private final MongoTemplate mongoTemplate;
 
-    public List<User> findUsersByFilters(UserDtoSearch request) {
+    public List<UserEntity> findUsersByFilters(UserDtoSearch request) {
 
         Query query = new Query();
         Criteria criteria = new Criteria();
@@ -39,7 +38,7 @@ public class UserRepositoryManager {
         }
 
         query.addCriteria(criteria);
-        return mongoTemplate.find(query, User.class);
+        return mongoTemplate.find(query, UserEntity.class);
     }
 
 

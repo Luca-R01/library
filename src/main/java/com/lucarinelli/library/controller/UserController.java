@@ -2,10 +2,9 @@ package com.lucarinelli.library.controller;
 
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.dto.user.UserDtoRequest;
-import com.lucarinelli.library.model.dto.user.UserDtoResponse;
-import com.lucarinelli.library.model.dto.user.UserDtoSearch;
-import com.lucarinelli.library.model.entity.User;
+import com.lucarinelli.library.model.user.UserDtoRequest;
+import com.lucarinelli.library.model.user.UserDtoResponse;
+import com.lucarinelli.library.model.user.UserDtoSearch;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public interface UserController {
     );
 
     @PutMapping("/{id}")
-    ResponseEntity<UserDtoResponse> updateUser(
+    ResponseEntity<String> updateUser(
             @PathVariable String id,
             @RequestBody @Valid UserDtoRequest dtoRequest
     ) throws NotFoundException;

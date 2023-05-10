@@ -1,7 +1,7 @@
-package com.lucarinelli.library.model.dto.user;
+package com.lucarinelli.library.model.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.lucarinelli.library.model.RentalModel;
+import com.lucarinelli.library.model.rental.RentalModel;
 import lombok.Builder;
 import lombok.Data;
 

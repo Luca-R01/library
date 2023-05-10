@@ -4,10 +4,10 @@ import com.lucarinelli.library.component.BookComponent;
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.mapper.BookMapper;
-import com.lucarinelli.library.model.dto.book.BookDtoRequest;
-import com.lucarinelli.library.model.dto.book.BookDtoResponse;
-import com.lucarinelli.library.model.dto.book.BookDtoSearch;
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookDtoRequest;
+import com.lucarinelli.library.model.book.BookDtoResponse;
+import com.lucarinelli.library.model.book.BookDtoSearch;
+import com.lucarinelli.library.model.book.BookEntity;
 import com.lucarinelli.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +28,9 @@ public class BookComponentImpl implements BookComponent {
     public BookDtoResponse createBook(BookDtoRequest dtoRequest) throws ConflictException {
         log.info("createBook - IN: {}", dtoRequest.toString());
 
-        Book bookRequest = bookMapper.toBook(dtoRequest);
-        Book book = bookService.createBook(bookRequest);
-        BookDtoResponse response = bookMapper.toDto(book);
+        BookEntity bookEntityRequest = bookMapper.toBook(dtoRequest);
+        BookEntity bookEntity = bookService.createBook(bookEntityRequest);
+        BookDtoResponse response = bookMapper.toIdDto(bookEntity);
 
         log.info("createBook - OUT: {}", response);
         return response;
@@ -40,8 +40,8 @@ public class BookComponentImpl implements BookComponent {
     public BookDtoResponse findBookById(String id) throws NotFoundException {
         log.info("findBookById - IN: id({})", id);
 
-        Book book = bookService.findBookById(id);
-        BookDtoResponse response = bookMapper.toDto(book);
+        BookEntity bookEntity = bookService.findBookById(id);
+        BookDtoResponse response = bookMapper.toDto(bookEntity);
 
         log.info("findBookById - OUT: {}", response.toString());
         return response;
@@ -51,23 +51,21 @@ public class BookComponentImpl implements BookComponent {
     public List<BookDtoResponse> findBooksByFilters(BookDtoSearch request) {
         log.info("findByBooksByFilter - IN: {}", request.toString());
 
-        List<Book> books = bookService.findBooksByFilters(request);
-        List<BookDtoResponse> response = bookMapper.toDtoList(books);
+        List<BookEntity> bookEntities = bookService.findBooksByFilters(request);
+        List<BookDtoResponse> response = bookMapper.toDtoList(bookEntities);
 
         log.info("findByBooksByFilter - OUT: {}", response);
         return response;
     }
 
     @Override
-    public BookDtoResponse updateBook(String id, BookDtoRequest dtoRequest) throws NotFoundException {
+    public void updateBook(String id, BookDtoRequest dtoRequest) throws NotFoundException {
         log.info("updateBook - IN: id({}), {}", id, dtoRequest.toString());
 
-        Book bookRequest = bookMapper.toBook(dtoRequest);
-        Book book = bookService.updateBook(id, bookRequest);
-        BookDtoResponse response = bookMapper.toDto(book);
+        BookEntity bookEntityRequest = bookMapper.toBook(dtoRequest);
+        bookService.updateBook(id, bookEntityRequest);
 
-        log.info("updateBook - OUT: {}", response);
-        return response;
+        log.info("updateBook - OUT: End method");
     }
 
     @Override

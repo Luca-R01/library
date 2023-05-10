@@ -1,4 +1,4 @@
-package com.lucarinelli.library.model.dto.user;
+package com.lucarinelli.library.model.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

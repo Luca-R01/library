@@ -2,10 +2,9 @@ package com.lucarinelli.library.controller;
 
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.dto.book.BookDtoRequest;
-import com.lucarinelli.library.model.dto.book.BookDtoResponse;
-import com.lucarinelli.library.model.dto.book.BookDtoSearch;
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookDtoRequest;
+import com.lucarinelli.library.model.book.BookDtoResponse;
+import com.lucarinelli.library.model.book.BookDtoSearch;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public interface BookController {
     );
 
     @PutMapping("/{id}")
-    ResponseEntity<BookDtoResponse> updateBook(
+    ResponseEntity<String> updateBook(
             @PathVariable String id,
             @RequestBody @Valid BookDtoRequest dtoRequest
     ) throws NotFoundException;

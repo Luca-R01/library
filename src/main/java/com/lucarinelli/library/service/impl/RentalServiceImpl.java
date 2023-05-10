@@ -2,9 +2,9 @@ package com.lucarinelli.library.service.impl;
 
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.RentalModel;
-import com.lucarinelli.library.model.entity.Book;
-import com.lucarinelli.library.model.entity.User;
+import com.lucarinelli.library.model.book.BookEntity;
+import com.lucarinelli.library.model.rental.RentalModel;
+import com.lucarinelli.library.model.user.UserEntity;
 import com.lucarinelli.library.service.BookService;
 import com.lucarinelli.library.service.RentalService;
 import com.lucarinelli.library.service.UserService;
@@ -29,26 +29,26 @@ public class RentalServiceImpl implements RentalService {
 
 
         // Find User
-        User user = userService.findUserById(userId);
+        UserEntity userEntity = userService.findUserById(userId);
 
         // Find Book
-        Book book = bookService.findBookById(rentalRequest.getBook().getId());
+        BookEntity bookEntity = bookService.findBookById(rentalRequest.getBookEntity().getId());
 
         // Add new Rental
 
         // Check if Book is present in Stock
-        if (book.getQuantity() == 0) {
+        if (bookEntity.getQuantity() == 0) {
             log.error("createRental - OUT: NotFoundException");
             throw new NotFoundException("This Book is not in stock");
         }
-        book.setQuantity(book.getQuantity() - 1);
+        bookEntity.setQuantity(bookEntity.getQuantity() - 1);
 
-        if (user.getRentalsList() == null) {
-            user.setRentalsList(List.of(rentalRequest));
+        if (userEntity.getRentalsList() == null) {
+            userEntity.setRentalsList(List.of(rentalRequest));
         } else {
             // Check if this book already exists in rental
-            Optional<RentalModel> check = user.getRentalsList().stream()
-                    .filter(rental -> rental.getBook().getId().equals(rentalRequest.getBook().getId()))
+            Optional<RentalModel> check = userEntity.getRentalsList().stream()
+                    .filter(rental -> rental.getBookEntity().getId().equals(rentalRequest.getBookEntity().getId()))
                     .findFirst();
 
             if (check.isPresent()) {
@@ -56,10 +56,10 @@ public class RentalServiceImpl implements RentalService {
                 throw new ConflictException("This book is already");
             }
             // Save rental
-            user.addRental(rentalRequest);
+            userEntity.addRental(rentalRequest);
         }
-        userService.updateUser(userId, user);
-        bookService.updateBook(book.getId(), book);
+        userService.updateUser(userId, userEntity);
+        bookService.updateBook(bookEntity.getId(), bookEntity);
 
         log.info("createRental - OUT: {}", rentalRequest.toString());
         return rentalRequest;

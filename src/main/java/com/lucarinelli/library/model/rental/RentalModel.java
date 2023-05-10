@@ -1,6 +1,6 @@
-package com.lucarinelli.library.model;
+package com.lucarinelli.library.model.rental;
 
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookEntity;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -16,7 +16,7 @@ public class RentalModel {
     private String id;
 
     @DBRef
-    private Book book;
+    private BookEntity bookEntity;
 
     private LocalDate rentalDate;
 

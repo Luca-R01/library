@@ -1,6 +1,6 @@
-package com.lucarinelli.library.model.entity;
+package com.lucarinelli.library.model.user;
 
-import com.lucarinelli.library.model.RentalModel;
+import com.lucarinelli.library.model.rental.RentalModel;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @Data
 @Document(collection = "user")
-public class User {
+public class UserEntity {
 
     @Id
     private String id;

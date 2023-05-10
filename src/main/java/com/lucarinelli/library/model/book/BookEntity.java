@@ -1,15 +1,16 @@
-package com.lucarinelli.library.model.dto.book;
+package com.lucarinelli.library.model.book;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.lucarinelli.library.model.BookCategory;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookDtoResponse {
+@Document(collection = "books")
+public class BookEntity {
 
+    @Id
     private String id;
     private String title;
     private String author;

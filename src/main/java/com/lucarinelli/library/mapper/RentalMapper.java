@@ -1,8 +1,8 @@
 package com.lucarinelli.library.mapper;
 
-import com.lucarinelli.library.model.RentalModel;
-import com.lucarinelli.library.model.dto.RentalDtoRequest;
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookEntity;
+import com.lucarinelli.library.model.rental.RentalDtoRequest;
+import com.lucarinelli.library.model.rental.RentalModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -18,13 +18,13 @@ public class RentalMapper {
     public RentalModel toModel(RentalDtoRequest dtoRequest) {
         log.info("toModel - IN: {}", dtoRequest.toString());
 
-        Book book = Book.builder()
+        BookEntity bookEntity = BookEntity.builder()
                 .id(dtoRequest.getBookId())
                 .build();
 
         RentalModel rentalModel = RentalModel.builder()
                 .id(new ObjectId().toString())
-                .book(book)
+                .bookEntity(bookEntity)
                 .rentalDate(LocalDate.now())
                 .expirationDate(LocalDate.now().plusDays(30))
                 .build();

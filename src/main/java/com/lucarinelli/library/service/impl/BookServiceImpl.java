@@ -2,10 +2,10 @@ package com.lucarinelli.library.service.impl;
 
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.dto.book.BookDtoSearch;
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookDtoSearch;
+import com.lucarinelli.library.model.book.BookEntity;
 import com.lucarinelli.library.repository.BookRepository;
-import com.lucarinelli.library.repository.manager.BookRepositoryManager;
+import com.lucarinelli.library.repository.BookRepositoryManager;
 import com.lucarinelli.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,33 +23,33 @@ public class BookServiceImpl implements BookService {
     private final BookRepositoryManager bookRepositoryManager;
 
     @Override
-    public Book createBook(Book newBook) throws ConflictException {
-        log.info("createBook - IN: {}", newBook.toString());
+    public BookEntity createBook(BookEntity newBookEntity) throws ConflictException {
+        log.info("createBook - IN: {}", newBookEntity.toString());
 
         // Check if Book already exists
         BookDtoSearch request = BookDtoSearch.builder()
-                .title(newBook.getTitle())
-                .author(newBook.getAuthor())
+                .title(newBookEntity.getTitle())
+                .author(newBookEntity.getAuthor())
                 .build();
 
-        List<Book> book = findBooksByFilters(request);
-        if (!book.isEmpty()) {
+        List<BookEntity> bookEntity = findBooksByFilters(request);
+        if (!bookEntity.isEmpty()) {
             log.error("createBook - OUT: ConflictException");
             throw new ConflictException("The Book alredy exists!");
         }
         // Insert Book
-        newBook = bookRepository.save(newBook);
+        newBookEntity = bookRepository.save(newBookEntity);
 
-        log.info("createBook - OUT: {}", newBook.toString());
-        return newBook;
+        log.info("createBook - OUT: {}", newBookEntity.toString());
+        return newBookEntity;
     }
 
     @Override
-    public Book findBookById(String id) throws NotFoundException {
+    public BookEntity findBookById(String id) throws NotFoundException {
         log.info("findBookById - OUT: id({})", id);
 
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isEmpty()){
+        Optional<BookEntity> book = bookRepository.findById(id);
+        if (book.isEmpty()) {
             log.error("findBookById - OUT: NotFoundException");
             throw new NotFoundException("Book not found");
         }
@@ -59,27 +59,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findBooksByFilters(BookDtoSearch request) {
+    public List<BookEntity> findBooksByFilters(BookDtoSearch request) {
         log.info("findByBooksByFilter - IN: {}", request.toString());
 
-        List<Book> books = bookRepositoryManager.findBooksByFilters(request);
+        List<BookEntity> bookEntities = bookRepositoryManager.findBooksByFilters(request);
 
-        log.info("findByBooksByFilter - OUT: {}", books.toString());
-        return books;
+        log.info("findByBooksByFilter - OUT: {}", bookEntities.toString());
+        return bookEntities;
     }
 
     @Override
-    public Book updateBook(String id, Book newBook) throws NotFoundException {
-        log.info("updateBook - IN: id({}), {}", id, newBook.toString());
+    public BookEntity updateBook(String id, BookEntity newBookEntity) throws NotFoundException {
+        log.info("updateBook - IN: id({}), {}", id, newBookEntity.toString());
 
         // Check if Book with input id exists
-        Book oldBook = findBookById(id);
+        BookEntity oldBookEntity = findBookById(id);
         // Update Book
-        newBook.setId(oldBook.getId());
-        bookRepository.save(newBook);
+        newBookEntity.setId(oldBookEntity.getId());
+        bookRepository.save(newBookEntity);
 
-        log.info("updateBook - OUT: {}", newBook.toString());
-        return newBook;
+        log.info("updateBook - OUT: {}", newBookEntity.toString());
+        return newBookEntity;
     }
 
     @Override
@@ -87,9 +87,9 @@ public class BookServiceImpl implements BookService {
         log.info("deleteBook - IN: id({})", id);
 
         // Check if Book with input id exists
-        Book book = findBookById(id);
+        BookEntity bookEntity = findBookById(id);
         // Delete Book
-        bookRepository.delete(book);
+        bookRepository.delete(bookEntity);
 
         log.info("deleteBook - OUT: END");
     }

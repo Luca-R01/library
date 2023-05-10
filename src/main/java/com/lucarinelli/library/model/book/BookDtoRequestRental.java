@@ -1,4 +1,4 @@
-package com.lucarinelli.library.model.dto.book;
+package com.lucarinelli.library.model.book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

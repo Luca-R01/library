@@ -2,8 +2,8 @@ package com.lucarinelli.library.controller;
 
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.RentalModel;
-import com.lucarinelli.library.model.dto.RentalDtoRequest;
+import com.lucarinelli.library.model.rental.RentalDtoRequest;
+import com.lucarinelli.library.model.rental.RentalModel;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -4,10 +4,9 @@ import com.lucarinelli.library.component.UserComponent;
 import com.lucarinelli.library.controller.UserController;
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.dto.user.UserDtoRequest;
-import com.lucarinelli.library.model.dto.user.UserDtoResponse;
-import com.lucarinelli.library.model.dto.user.UserDtoSearch;
-import com.lucarinelli.library.model.entity.User;
+import com.lucarinelli.library.model.user.UserDtoRequest;
+import com.lucarinelli.library.model.user.UserDtoResponse;
+import com.lucarinelli.library.model.user.UserDtoSearch;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,11 +57,11 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<UserDtoResponse> updateUser(String id, UserDtoRequest dtoRequest) throws NotFoundException {
+    public ResponseEntity<String> updateUser(String id, UserDtoRequest dtoRequest) throws NotFoundException {
         log.info("updateUser - IN: id({}), {}", id, dtoRequest.toString());
 
-        UserDtoResponse userResponse = userComponent.updateUser(id, dtoRequest);
-        ResponseEntity<UserDtoResponse> response = new ResponseEntity<>(userResponse, HttpStatus.OK);
+        userComponent.updateUser(id, dtoRequest);
+        ResponseEntity<String> response = new ResponseEntity<>("User updated", HttpStatus.OK);
 
         log.info("updateUser - OUT: {}", response);
         return response;
@@ -73,7 +72,7 @@ public class UserControllerImpl implements UserController {
         log.info("deleteUser - IN: id({})", id);
 
         userComponent.deleteUser(id);
-        ResponseEntity<String> response = new ResponseEntity<>("User deleted!", HttpStatus.OK);
+        ResponseEntity<String> response = new ResponseEntity<>("User deleted", HttpStatus.OK);
 
         log.info("deleteUser - OUT: {}", response.toString());
         return response;

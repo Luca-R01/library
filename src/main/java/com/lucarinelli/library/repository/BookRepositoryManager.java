@@ -1,7 +1,7 @@
-package com.lucarinelli.library.repository.manager;
+package com.lucarinelli.library.repository;
 
-import com.lucarinelli.library.model.dto.book.BookDtoSearch;
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookDtoSearch;
+import com.lucarinelli.library.model.book.BookEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class BookRepositoryManager {
     @Autowired
     private final MongoTemplate mongoTemplate;
 
-    public List<Book> findBooksByFilters(BookDtoSearch request) {
+    public List<BookEntity> findBooksByFilters(BookDtoSearch request) {
 
         Query query = new Query();
         Criteria criteria = new Criteria();
@@ -47,7 +47,7 @@ public class BookRepositoryManager {
 
         query.addCriteria(criteria);
 
-        return mongoTemplate.find(query, Book.class);
+        return mongoTemplate.find(query, BookEntity.class);
     }
 
 

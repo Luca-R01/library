@@ -1,4 +1,4 @@
-package com.lucarinelli.library.model;
+package com.lucarinelli.library.model.book;
 
 public enum BookCategory {
 

@@ -2,10 +2,9 @@ package com.lucarinelli.library.component;
 
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
-import com.lucarinelli.library.model.dto.book.BookDtoRequest;
-import com.lucarinelli.library.model.dto.book.BookDtoResponse;
-import com.lucarinelli.library.model.dto.book.BookDtoSearch;
-import com.lucarinelli.library.model.entity.Book;
+import com.lucarinelli.library.model.book.BookDtoRequest;
+import com.lucarinelli.library.model.book.BookDtoResponse;
+import com.lucarinelli.library.model.book.BookDtoSearch;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface BookComponent {
 
     List<BookDtoResponse> findBooksByFilters(BookDtoSearch request);
 
-    BookDtoResponse updateBook(String id, BookDtoRequest dtoRequest) throws NotFoundException;
+    void updateBook(String id, BookDtoRequest dtoRequest) throws NotFoundException;
 
     void deleteBook(String id) throws NotFoundException;
 

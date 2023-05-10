@@ -1,4 +1,4 @@
-package com.lucarinelli.library.model.dto;
+package com.lucarinelli.library.model.rental;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
