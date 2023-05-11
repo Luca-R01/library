@@ -5,6 +5,9 @@ import com.lucarinelli.library.model.book.BookEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,7 +23,7 @@ public class BookRepositoryManager {
     @Autowired
     private final MongoTemplate mongoTemplate;
 
-    public List<BookEntity> findBooksByFilters(BookDtoSearch request) {
+    public Page<BookEntity> findBooksByFilters(Pageable pageable, BookDtoSearch request) {
 
         Query query = new Query();
         Criteria criteria = new Criteria();
@@ -46,8 +49,11 @@ public class BookRepositoryManager {
         }
 
         query.addCriteria(criteria);
+        long totElements = mongoTemplate.count(query, BookEntity.class);
+        query.with(pageable);
 
-        return mongoTemplate.find(query, BookEntity.class);
+        List<BookEntity> books = mongoTemplate.find(query, BookEntity.class);
+        return new PageImpl<>(books, pageable, totElements);
     }
 
 

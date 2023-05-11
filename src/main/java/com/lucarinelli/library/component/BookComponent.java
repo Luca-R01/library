@@ -5,8 +5,7 @@ import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.book.BookDtoRequest;
 import com.lucarinelli.library.model.book.BookDtoResponse;
 import com.lucarinelli.library.model.book.BookDtoSearch;
-
-import java.util.List;
+import com.lucarinelli.library.model.book.BookPageDtoResponse;
 
 public interface BookComponent {
 
@@ -14,7 +13,7 @@ public interface BookComponent {
 
     BookDtoResponse findBookById(String id) throws NotFoundException;
 
-    List<BookDtoResponse> findBooksByFilters(BookDtoSearch request);
+    BookPageDtoResponse findBooksByFilters(Integer page, Integer pageSize, BookDtoSearch request);
 
     void updateBook(String id, BookDtoRequest dtoRequest) throws NotFoundException;
 

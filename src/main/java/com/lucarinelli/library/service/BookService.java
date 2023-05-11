@@ -4,8 +4,7 @@ import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.book.BookDtoSearch;
 import com.lucarinelli.library.model.book.BookEntity;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface BookService {
 
@@ -13,7 +12,7 @@ public interface BookService {
 
     BookEntity findBookById(String id) throws NotFoundException;
 
-    List<BookEntity> findBooksByFilters(BookDtoSearch request);
+    Page<BookEntity> findBooksByFilters(Integer page, Integer pageSize, BookDtoSearch request);
 
     BookEntity updateBook(String id, BookEntity newBookEntity) throws NotFoundException;
 

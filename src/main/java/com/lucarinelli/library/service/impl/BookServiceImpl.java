@@ -9,9 +9,11 @@ import com.lucarinelli.library.repository.BookRepositoryManager;
 import com.lucarinelli.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -32,7 +34,7 @@ public class BookServiceImpl implements BookService {
                 .author(newBookEntity.getAuthor())
                 .build();
 
-        List<BookEntity> bookEntity = findBooksByFilters(request);
+        Page<BookEntity> bookEntity = findBooksByFilters(0, 1, request);
         if (!bookEntity.isEmpty()) {
             log.error("createBook - OUT: ConflictException");
             throw new ConflictException("The Book alredy exists!");
@@ -59,10 +61,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookEntity> findBooksByFilters(BookDtoSearch request) {
+    public Page<BookEntity> findBooksByFilters(Integer page, Integer pageSize, BookDtoSearch request) {
         log.info("findByBooksByFilter - IN: {}", request.toString());
 
-        List<BookEntity> bookEntities = bookRepositoryManager.findBooksByFilters(request);
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<BookEntity> bookEntities = bookRepositoryManager.findBooksByFilters(pageable, request);
 
         log.info("findByBooksByFilter - OUT: {}", bookEntities.toString());
         return bookEntities;

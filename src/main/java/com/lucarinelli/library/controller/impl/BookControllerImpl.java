@@ -7,14 +7,13 @@ import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.book.BookDtoRequest;
 import com.lucarinelli.library.model.book.BookDtoResponse;
 import com.lucarinelli.library.model.book.BookDtoSearch;
+import com.lucarinelli.library.model.book.BookPageDtoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,11 +45,11 @@ public class BookControllerImpl implements BookController {
     }
 
     @Override
-    public ResponseEntity<List<BookDtoResponse>> findBooksByFilters(BookDtoSearch request) {
+    public ResponseEntity<BookPageDtoResponse> findBooksByFilters(Integer page, Integer pageSize, BookDtoSearch request) {
         log.info("findByBooksByFilter - IN: {}", request.toString());
 
-        List<BookDtoResponse> bookResponse = bookComponent.findBooksByFilters(request);
-        ResponseEntity<List<BookDtoResponse>> response = new ResponseEntity<>(bookResponse, HttpStatus.OK);
+        BookPageDtoResponse bookResponse = bookComponent.findBooksByFilters(page, pageSize, request);
+        ResponseEntity<BookPageDtoResponse> response = new ResponseEntity<>(bookResponse, HttpStatus.OK);
 
         log.info("findByBooksByFilter - OUT: {}", response.toString());
         return response;
@@ -63,7 +62,7 @@ public class BookControllerImpl implements BookController {
         bookComponent.updateBook(id, dtoRequest);
         ResponseEntity<String> response = new ResponseEntity<>("Book updated", HttpStatus.OK);
 
-        log.info("updateBook - OUT: {}", response);
+        log.info("updateBook - OUT: {}", response.toString());
         return response;
     }
 

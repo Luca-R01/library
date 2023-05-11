@@ -4,16 +4,12 @@ import com.lucarinelli.library.component.BookComponent;
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.mapper.BookMapper;
-import com.lucarinelli.library.model.book.BookDtoRequest;
-import com.lucarinelli.library.model.book.BookDtoResponse;
-import com.lucarinelli.library.model.book.BookDtoSearch;
-import com.lucarinelli.library.model.book.BookEntity;
+import com.lucarinelli.library.model.book.*;
 import com.lucarinelli.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,11 +44,11 @@ public class BookComponentImpl implements BookComponent {
     }
 
     @Override
-    public List<BookDtoResponse> findBooksByFilters(BookDtoSearch request) {
+    public BookPageDtoResponse findBooksByFilters(Integer page, Integer pageSize, BookDtoSearch request) {
         log.info("findByBooksByFilter - IN: {}", request.toString());
 
-        List<BookEntity> bookEntities = bookService.findBooksByFilters(request);
-        List<BookDtoResponse> response = bookMapper.toDtoList(bookEntities);
+        Page<BookEntity> bookEntities = bookService.findBooksByFilters(page, pageSize, request);
+        BookPageDtoResponse response = bookMapper.toPageDto(bookEntities);
 
         log.info("findByBooksByFilter - OUT: {}", response);
         return response;

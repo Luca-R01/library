@@ -1,10 +1,13 @@
 package com.lucarinelli.library.mapper;
 
+import com.lucarinelli.library.model.PageStatsDto;
 import com.lucarinelli.library.model.book.BookDtoRequest;
 import com.lucarinelli.library.model.book.BookDtoResponse;
 import com.lucarinelli.library.model.book.BookEntity;
+import com.lucarinelli.library.model.book.BookPageDtoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -66,6 +69,26 @@ public class BookMapper {
 
         log.info("toIdDto - OUT: {}", dtoResponse.toString());
         return dtoResponse;
+    }
+
+    public BookPageDtoResponse toPageDto(Page<BookEntity> booksPaged) {
+        log.info("toPageDto - IN: {}", booksPaged.toString());
+
+        PageStatsDto pageStatsDto = PageStatsDto.builder()
+                .page(booksPaged.getPageable().getPageNumber())
+                .pageSize(booksPaged.getPageable().getPageSize())
+                .pageElements(booksPaged.getNumberOfElements())
+                .totalElements(booksPaged.getTotalElements())
+                .totalPages(booksPaged.getTotalPages())
+                .build();
+
+        BookPageDtoResponse responseDto = BookPageDtoResponse.builder()
+                .books(toDtoList(booksPaged.stream().toList()))
+                .pageStats(pageStatsDto)
+                .build();
+
+        log.info("toPageDto - OUT: {}", responseDto.toString());
+        return responseDto;
     }
 
 }
