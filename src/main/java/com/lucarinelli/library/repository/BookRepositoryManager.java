@@ -51,7 +51,6 @@ public class BookRepositoryManager {
         query.addCriteria(criteria);
         long totElements = mongoTemplate.count(query, BookEntity.class);
         query.with(pageable);
-
         List<BookEntity> books = mongoTemplate.find(query, BookEntity.class);
         return new PageImpl<>(books, pageable, totElements);
     }

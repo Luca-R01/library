@@ -5,8 +5,7 @@ import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.user.UserDtoRequest;
 import com.lucarinelli.library.model.user.UserDtoResponse;
 import com.lucarinelli.library.model.user.UserDtoSearch;
-
-import java.util.List;
+import com.lucarinelli.library.model.user.UserPageDtoResponse;
 
 public interface UserComponent {
 
@@ -14,7 +13,7 @@ public interface UserComponent {
 
     UserDtoResponse findUserById(String id) throws NotFoundException;
 
-    List<UserDtoResponse> findUsersByFilters(UserDtoSearch request);
+    UserPageDtoResponse findUsersByFilters(Integer page, Integer pageSize, UserDtoSearch request);
 
     void updateUser(String id, UserDtoRequest dtoRequest) throws NotFoundException;
 

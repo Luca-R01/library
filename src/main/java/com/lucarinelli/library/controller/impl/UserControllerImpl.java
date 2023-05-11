@@ -7,14 +7,13 @@ import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.user.UserDtoRequest;
 import com.lucarinelli.library.model.user.UserDtoResponse;
 import com.lucarinelli.library.model.user.UserDtoSearch;
+import com.lucarinelli.library.model.user.UserPageDtoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,11 +45,11 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<List<UserDtoResponse>> findUsersByFilters(UserDtoSearch request) {
+    public ResponseEntity<UserPageDtoResponse> findUsersByFilters(Integer page, Integer pageSize, UserDtoSearch request) {
         log.info("findByUsersByFilter - IN: {}", request.toString());
 
-        List<UserDtoResponse> userResponse = userComponent.findUsersByFilters(request);
-        ResponseEntity<List<UserDtoResponse>> response = new ResponseEntity<>(userResponse, HttpStatus.OK);
+        UserPageDtoResponse userResponse = userComponent.findUsersByFilters(page, pageSize, request);
+        ResponseEntity<UserPageDtoResponse> response = new ResponseEntity<>(userResponse, HttpStatus.OK);
 
         log.info("findByUsersByFilter - OUT: {}", response.toString());
         return response;

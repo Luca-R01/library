@@ -5,6 +5,9 @@ import com.lucarinelli.library.model.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,7 +23,7 @@ public class UserRepositoryManager {
     @Autowired
     private final MongoTemplate mongoTemplate;
 
-    public List<UserEntity> findUsersByFilters(UserDtoSearch request) {
+    public Page<UserEntity> findUsersByFilters(Pageable pageable, UserDtoSearch request) {
 
         Query query = new Query();
         Criteria criteria = new Criteria();
@@ -38,7 +41,10 @@ public class UserRepositoryManager {
         }
 
         query.addCriteria(criteria);
-        return mongoTemplate.find(query, UserEntity.class);
+        long totElements = mongoTemplate.count(query, UserEntity.class);
+        query.with(pageable);
+        List<UserEntity> users = mongoTemplate.find(query, UserEntity.class);
+        return new PageImpl<>(users, pageable, totElements);
     }
 
 

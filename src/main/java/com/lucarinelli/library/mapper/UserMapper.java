@@ -1,11 +1,14 @@
 package com.lucarinelli.library.mapper;
 
+import com.lucarinelli.library.model.PageStatsDto;
 import com.lucarinelli.library.model.rental.RentalModel;
 import com.lucarinelli.library.model.user.UserDtoRequest;
 import com.lucarinelli.library.model.user.UserDtoResponse;
 import com.lucarinelli.library.model.user.UserEntity;
+import com.lucarinelli.library.model.user.UserPageDtoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -66,6 +69,26 @@ public class UserMapper {
 
         log.info("toIdDto - OUT: {}", dtoResponse.toString());
         return dtoResponse;
+    }
+
+    public UserPageDtoResponse toPageDto(Page<UserEntity> usersPaged) {
+        log.info("toPageDto - IN: {}", usersPaged.toString());
+
+        PageStatsDto pageStatsDto = PageStatsDto.builder()
+                .page(usersPaged.getPageable().getPageNumber())
+                .pageSize(usersPaged.getPageable().getPageSize())
+                .pageElements(usersPaged.getNumberOfElements())
+                .totalElements(usersPaged.getTotalElements())
+                .totalPages(usersPaged.getTotalPages())
+                .build();
+
+        UserPageDtoResponse responseDto = UserPageDtoResponse.builder()
+                .users(toDtoList(usersPaged.stream().toList()))
+                .pageStats(pageStatsDto)
+                .build();
+
+        log.info("toPageDto - OUT: {}", responseDto.toString());
+        return responseDto;
     }
 
 }

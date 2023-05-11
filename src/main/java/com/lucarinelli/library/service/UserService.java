@@ -4,8 +4,7 @@ import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.user.UserDtoSearch;
 import com.lucarinelli.library.model.user.UserEntity;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
 
@@ -13,7 +12,7 @@ public interface UserService {
 
     UserEntity findUserById(String id) throws NotFoundException;
 
-    List<UserEntity> findUsersByFilters(UserDtoSearch request);
+    Page<UserEntity> findUsersByFilters(Integer page, Integer pageSize, UserDtoSearch request);
 
     UserEntity updateUser(String id, UserEntity newUserEntity) throws NotFoundException;
 

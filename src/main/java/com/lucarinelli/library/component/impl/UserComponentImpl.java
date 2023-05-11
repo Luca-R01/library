@@ -4,16 +4,12 @@ import com.lucarinelli.library.component.UserComponent;
 import com.lucarinelli.library.exception.ConflictException;
 import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.mapper.UserMapper;
-import com.lucarinelli.library.model.user.UserDtoRequest;
-import com.lucarinelli.library.model.user.UserDtoResponse;
-import com.lucarinelli.library.model.user.UserDtoSearch;
-import com.lucarinelli.library.model.user.UserEntity;
+import com.lucarinelli.library.model.user.*;
 import com.lucarinelli.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,11 +44,11 @@ public class UserComponentImpl implements UserComponent {
     }
 
     @Override
-    public List<UserDtoResponse> findUsersByFilters(UserDtoSearch request) {
+    public UserPageDtoResponse findUsersByFilters(Integer page, Integer pageSize, UserDtoSearch request) {
         log.info("findByUsersByFilter - IN: {}", request.toString());
 
-        List<UserEntity> userEntities = userService.findUsersByFilters(request);
-        List<UserDtoResponse> response = userMapper.toDtoList(userEntities);
+        Page<UserEntity> userEntities = userService.findUsersByFilters(page, pageSize, request);
+        UserPageDtoResponse response = userMapper.toPageDto(userEntities);
 
         log.info("findByUsersByFilter - OUT: {}", response);
         return response;

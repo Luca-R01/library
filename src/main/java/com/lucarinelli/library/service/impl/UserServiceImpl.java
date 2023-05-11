@@ -9,9 +9,11 @@ import com.lucarinelli.library.repository.UserRepositoryManager;
 import com.lucarinelli.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class UserServiceImpl implements UserService {
                 .fiscalCode(newUserEntity.getFiscalCode())
                 .build();
 
-        List<UserEntity> userEntity = findUsersByFilters(request);
+        Page<UserEntity> userEntity = findUsersByFilters(0, 1, request);
         if (!userEntity.isEmpty()) {
             log.error("createUser - OUT: ConflictException");
             throw new ConflictException("The User alredy exists!");
@@ -58,10 +60,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findUsersByFilters(UserDtoSearch request) {
+    public Page<UserEntity> findUsersByFilters(Integer page, Integer pageSize, UserDtoSearch request) {
         log.info("findByUsersByFilter - IN: {}", request.toString());
 
-        List<UserEntity> userEntities = userRepositoryManager.findUsersByFilters(request);
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<UserEntity> userEntities = userRepositoryManager.findUsersByFilters(pageable, request);
 
         log.info("findByUsersByFilter - OUT: {}", userEntities.toString());
         return userEntities;

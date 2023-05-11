@@ -5,12 +5,11 @@ import com.lucarinelli.library.exception.NotFoundException;
 import com.lucarinelli.library.model.user.UserDtoRequest;
 import com.lucarinelli.library.model.user.UserDtoResponse;
 import com.lucarinelli.library.model.user.UserDtoSearch;
+import com.lucarinelli.library.model.user.UserPageDtoResponse;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/user")
 public interface UserController {
@@ -26,7 +25,9 @@ public interface UserController {
     ) throws NotFoundException;
 
     @GetMapping
-    ResponseEntity<List<UserDtoResponse>> findUsersByFilters(
+    ResponseEntity<UserPageDtoResponse> findUsersByFilters(
+            @RequestParam Integer page,
+            @RequestParam Integer pageSize,
             @ParameterObject UserDtoSearch request
     );
 
