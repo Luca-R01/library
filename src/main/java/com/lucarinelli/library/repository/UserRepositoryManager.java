@@ -2,9 +2,7 @@ package com.lucarinelli.library.repository;
 
 import com.lucarinelli.library.model.user.UserDtoSearch;
 import com.lucarinelli.library.model.user.UserEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +13,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Repository
 public class UserRepositoryManager {
 
-    @Autowired
     private final MongoTemplate mongoTemplate;
 
     public Page<UserEntity> findUsersByFilters(Pageable pageable, UserDtoSearch request) {
