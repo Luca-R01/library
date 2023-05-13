@@ -25,15 +25,15 @@ public class UserRepositoryManager {
         Criteria criteria = new Criteria();
 
         if (request.getFiscalCode() != null && !request.getFiscalCode().isBlank()) {
-            criteria = criteria.and("fiscalCode").is(request.getFiscalCode());
+            criteria.and("fiscalCode").is(request.getFiscalCode());
         }
 
         if (request.getName() != null && !request.getName().isBlank()) {
-            criteria = criteria.and("name").is(request.getName());
+            criteria.and("name").is(request.getName());
         }
 
         if (request.getSurname() != null && !request.getSurname().isBlank()) {
-            criteria = criteria.and("surname").is(request.getSurname());
+            criteria.and("surname").is(request.getSurname());
         }
 
         query.addCriteria(criteria);

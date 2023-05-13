@@ -25,23 +25,23 @@ public class BookRepositoryManager {
         Criteria criteria = new Criteria();
 
         if (request.getTitle() != null && !request.getTitle().isBlank()) {
-            criteria = criteria.and("title").is(request.getTitle());
+            criteria.and("title").is(request.getTitle());
         }
 
         if (request.getAuthor() != null && !request.getAuthor().isBlank()) {
-            criteria = criteria.and("author").is(request.getAuthor());
+            criteria.and("author").is(request.getAuthor());
         }
 
         if (request.getCategory() != null) {
-            criteria = criteria.and("category").is(request.getCategory());
+            criteria.and("category").is(request.getCategory());
         }
 
         if (request.getPrice() != null) {
-            criteria = criteria.and("price").is(request.getPrice());
+            criteria.and("price").is(request.getPrice());
         }
 
         if (request.getQuantity() != null) {
-            criteria = criteria.and("quantity").is(request.getQuantity());
+            criteria.and("quantity").is(request.getQuantity());
         }
 
         query.addCriteria(criteria);
