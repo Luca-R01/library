@@ -81,6 +81,13 @@
             <version>1.6.15</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jeasy</groupId>
+            <artifactId>easy-random-core</artifactId>
+            <version>5.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -97,6 +104,44 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
+                <configuration>
+                    <output>file</output>
+                    <append>true</append>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/jacoco</outputDirectory>
+                            <excludes>
+                                <exclude>com/lucarinelli/library/*</exclude>
+                                <exclude>com/lucarinelli/library/model/*</exclude>
+                                <exclude>com/lucarinelli/library/model/book/*</exclude>
+                                <exclude>com/lucarinelli/library/model/rental/*</exclude>
+                                <exclude>com/lucarinelli/library/model/user/*</exclude>
+                                <exclude>com/lucarinelli/library/repository/*</exclude>
+                                <exclude>com/lucarinelli/library/exception/*</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
