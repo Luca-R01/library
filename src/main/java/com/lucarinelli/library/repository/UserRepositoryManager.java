@@ -2,6 +2,7 @@ package com.lucarinelli.library.repository;
 
 import com.lucarinelli.library.model.user.UserDtoSearch;
 import com.lucarinelli.library.model.user.UserEntity;
+import com.lucarinelli.library.utility.RepositoryUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,17 +25,11 @@ public class UserRepositoryManager {
         Query query = new Query();
         Criteria criteria = new Criteria();
 
-        if (request.getFiscalCode() != null && !request.getFiscalCode().isBlank()) {
-            criteria.and("fiscalCode").is(request.getFiscalCode());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "fiscalCode", request.getFiscalCode());
 
-        if (request.getName() != null && !request.getName().isBlank()) {
-            criteria.and("name").is(request.getName());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "name", request.getName());
 
-        if (request.getSurname() != null && !request.getSurname().isBlank()) {
-            criteria.and("surname").is(request.getSurname());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "surname", request.getSurname());
 
         query.addCriteria(criteria);
         long totElements = mongoTemplate.count(query, UserEntity.class);

@@ -2,6 +2,7 @@ package com.lucarinelli.library.repository;
 
 import com.lucarinelli.library.model.book.BookDtoSearch;
 import com.lucarinelli.library.model.book.BookEntity;
+import com.lucarinelli.library.utility.RepositoryUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,25 +25,15 @@ public class BookRepositoryManager {
         Query query = new Query();
         Criteria criteria = new Criteria();
 
-        if (request.getTitle() != null && !request.getTitle().isBlank()) {
-            criteria.and("title").is(request.getTitle());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "title", request.getTitle());
 
-        if (request.getAuthor() != null && !request.getAuthor().isBlank()) {
-            criteria.and("author").is(request.getAuthor());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "author", request.getAuthor());
 
-        if (request.getCategory() != null) {
-            criteria.and("category").is(request.getCategory());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "category", request.getCategory());
 
-        if (request.getPrice() != null) {
-            criteria.and("price").is(request.getPrice());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "price", request.getPrice());
 
-        if (request.getQuantity() != null) {
-            criteria.and("quantity").is(request.getQuantity());
-        }
+        RepositoryUtility.criteriaBuilder(criteria, "quantity", request.getQuantity());
 
         query.addCriteria(criteria);
         long totElements = mongoTemplate.count(query, BookEntity.class);

@@ -7,10 +7,10 @@ import com.lucarinelli.library.model.book.BookEntity;
 import com.lucarinelli.library.repository.BookRepository;
 import com.lucarinelli.library.repository.BookRepositoryManager;
 import com.lucarinelli.library.service.BookService;
+import com.lucarinelli.library.utility.RepositoryUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
     public Page<BookEntity> findBooksByFilters(Integer page, Integer pageSize, BookDtoSearch request) {
         log.info("findByBooksByFilter - IN: {}", request.toString());
 
-        Pageable pageable = PageRequest.of(page, pageSize);
+        Pageable pageable = RepositoryUtility.PageableBuilder(page, pageSize);
         Page<BookEntity> bookEntities = bookRepositoryManager.findBooksByFilters(pageable, request);
 
         log.info("findByBooksByFilter - OUT: {}", bookEntities.toString());
